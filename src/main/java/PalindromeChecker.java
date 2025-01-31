@@ -1,49 +1,52 @@
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.util.Scanner; // Import the Scanner class to read text files
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class PalindromeChecker {
-public void tester()
-{
-  //String lines[] = loadStrings("palindromes.txt");
-  String[] lines = new String[6]; 
-    try{
-        File myFile = new File("palindromes.txt");
-        Scanner myReader = new Scanner(myFile);
-        int counter = 0;
-        while (myReader.hasNextLine()) {
-            String data = myReader.nextLine();
-            lines[counter] = data;
-            counter++;
+    public void tester() {
+        String[] lines = new String[6];
+
+        try {
+            File myFile = new File("palindromes.txt");
+            Scanner myReader = new Scanner(myFile);
+            int counter = 0;
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                lines[counter] = data;
+                counter++;
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
-        myReader.close();
+
+        System.out.println("there are " + lines.length + " lines");
+        for (String line : lines) {
+            if (palindrome(line)) {
+                System.out.println(line + " IS a palindrome.");
+            } else {
+                System.out.println(line + " is NOT a palindrome.");
+            }
+        }
     }
-    catch (FileNotFoundException e) {
-        System.out.println("An error occurred.");
-        e.printStackTrace();
+
+    public boolean palindrome(String word) {
+        String cleaned = cleanString(word);
+        return cleaned.equals(reverse(cleaned));
     }
-  System.out.println("there are " + lines.length + " lines");
-  for (int i=0; i < lines.length; i++) 
-  {
-    if(palindrome(lines[i])==true)
-    {
-      System.out.println(lines[i] + " IS a palindrome.");
+
+    public String reverse(String str) {
+        StringBuilder reversed = new StringBuilder(str);
+        return reversed.reverse().toString();
     }
-    else
-    {
-      System.out.println(lines[i] + " is NOT a palindrome.");
+
+    private String cleanString(String str) {
+        return str.replaceAll("[^a-zA-Z]", "").toLowerCase();
     }
-  }
-}
-public boolean palindrome(String word)
-{
-  //your code here
-  return false;
-}
-public String reverse(String str)
-{
-    String sNew = new String();
-    //your code here
-    return sNew;
-}
+
+    public static void main(String[] args) {
+        PalindromeChecker checker = new PalindromeChecker();
+        checker.tester();
+    }
 }
